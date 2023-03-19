@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout >
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="user"
+            type="com.example.viewbindingapp003.User" />
+        <variable
+            name="movie"
+            type="com.example.viewbindingapp003.Movie" />
+        <variable
+            name="state"
+            type="com.example.viewbindingapp003.State" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="ONE WAY DATABINDING"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/yellow" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="ZMIEŃ DANE USERA" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@{user.fName + `-` + user.lName}"
+            android:visibility="@{user.fName != null ? View.VISIBLE : View.GONE}"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="TWO WAY DATABINDING - textview"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/yellow" />
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@={movie.title}"
+            android:hint="aaaaaa"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@={movie.title}"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="SPRAWDŹ MOVIE" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:checked="@={state.isChecked}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@={``+state.isChecked}"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+</layout>
