@@ -43,12 +43,24 @@ public class TestAdapter extends BaseAdapter {
         itemRowLayoutBinding = ItemRowLayoutBinding.inflate(layoutInflater, viewGroup, false);
         view = itemRowLayoutBinding.getRoot();
         itemRowLayoutBinding.setItem(list.get(i));
-//        list.get(i).getColor()
 
-        //list.get(i).getColor()
-        //Color color = new Color( % (255 * 255), )
-        //itemRowLayoutBinding.imageColor.setBackgroundColor();
+        if (!list.get(i).getColor().equals("")) {
+            int colorInt = Integer.parseInt(list.get(i).getColor()) % (256 * 256 * 256);
+            Color color = new Color();
+            int[] rgb = colorToRGB(colorInt);
+            colorInt = color.rgb(rgb[0], rgb[1], rgb[2]);
+            itemRowLayoutBinding.imageColor.setBackgroundColor(colorInt);
+        }
+
         return view;
+    }
+
+    public static int[] colorToRGB(int color) {
+        int[] rgb = new int[3];
+        rgb[0] = (color >> 16) & 0xFF; // extract red component
+        rgb[1] = (color >> 8) & 0xFF; // extract green component
+        rgb[2] = color & 0xFF; // extract blue component
+        return rgb;
     }
 
     public TestAdapter(ArrayList<Item> list) {

@@ -29,5 +29,20 @@ public class MainActivity extends AppCompatActivity {
         TestAdapter itemsAdapter = new TestAdapter(list);
         activityMainBinding.listView.setAdapter(itemsAdapter);
 
+        activityMainBinding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.add(new Item("-65535", "czerwony"));
+                itemsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        activityMainBinding.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.clear();
+                itemsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
