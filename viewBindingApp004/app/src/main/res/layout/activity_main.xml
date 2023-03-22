@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout >
+    <data>
+        <import type="android.view.View" />
+<!--        <variable-->
+<!--            name="user"-->
+<!--            type="com.example.viewbingingapp004.User" />-->
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="ADD TO LIST" />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="DELETE ALL" />
+
+        <ListView
+            android:id="@+id/listView"
+            tools:listitem="@layout/item_row_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>
