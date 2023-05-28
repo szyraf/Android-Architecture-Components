@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".textview">
 
-    <TextView
+<layout>
+    <data>
+        <variable
+            name="data"
+            type="com.example.viewbindingapp2_003.Data" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="textview fragment" />
+        android:background="@{data.color}"
+        tools:context=".textview"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={data.title}"
+            android:textSize="30dp"
+            android:layout_margin="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:text="@={data.title}"
+            android:textSize="@{data.size}"
+            android:textColor="@color/yellow"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="@={data.size}" />
+
+    </LinearLayout>
+</layout>

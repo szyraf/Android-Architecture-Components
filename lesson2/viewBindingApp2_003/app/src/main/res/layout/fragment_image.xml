@@ -1,14 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".image">
 
-    <TextView
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="data"
+            type="com.example.viewbindingapp2_003.Data" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="image fragment" />
+        android:background="@{data.color}"
+        tools:context=".image"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.title}"
+            android:textSize="30dp"
+            android:layout_margin="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imageSize="@{data.size}"
+                android:imageUrl="@{data.imageUrl}" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="@={data.size}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                android:onClick="@{()->data.setImageUrl(`https://img.freepik.com/premium-vector/red-apple-vector-healthy-sweet-fruit_68708-3076.jpg`)}"
+                android:text="APPLE"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                android:onClick="@{()->data.setImageUrl(`https://t3.ftcdn.net/jpg/01/03/87/88/360_F_103878807_z84l8RHnL5VRhCVVp6zbA2lvVt2v80Zy.jpg`)}"
+                android:text="SHARK"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,6 +1,7 @@
 package com.example.viewbindingapp2_003;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -19,9 +20,12 @@ public class MainActivity extends AppCompatActivity {
         View view = activityMainBinding.getRoot();
         setContentView(view);
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        replaceFragment(new textview());
+
         activityMainBinding.bottomNavigation.setOnItemSelectedListener(v -> {
             switch (v.getItemId()) {
-
                 case R.id.textview:
                     replaceFragment(new textview());
                     break;

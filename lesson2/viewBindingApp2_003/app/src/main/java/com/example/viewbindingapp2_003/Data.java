@@ -50,6 +50,11 @@ public class Data extends BaseObservable {
         notifyPropertyChanged(BR.imageUrl);
     }
 
+    public Data(String title, int color, int size) {
+        this.title = title;
+        this.color = color;
+        this.size = size;
+    }
     public Data(String title, int color, int size, String imageUrl) {
         this.title = title;
         this.color = color;
