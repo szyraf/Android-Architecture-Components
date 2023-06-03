@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="TestViewModel"
+            type="com.example.viewbindingapp3_002.viewmodel.TestViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity"
+        android:orientation="vertical">
+
+        <Button
+            android:text="CHANGE NUMBER"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->TestViewModel.changeAge(99)}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(TestViewModel.ageLiveData)}" />
+
+        <Button
+            android:text="SHOW TIMESTAMP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->TestViewModel.changeTimestamp()}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(TestViewModel.timestampLiveData)}" />
+
+
+    </LinearLayout>
+
+</layout>
