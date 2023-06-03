@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="UserViewModel"
+            type="com.example.viewbindingapp3_004.viewmodel.UserViewModel" />
+
+        <variable
+            name="User"
+            type="com.example.viewbindingapp3_004.model.User" />
+
+        <variable
+            name="UserName"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={UserName}" />
+
+        <Button
+            android:text="ADD USER"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->UserViewModel.addUser(UserName)}" />
+
+        <Button
+            android:text="DELETE ALL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->UserViewModel.deleteAll()}" />
+
+
+        <ListView
+            android:id="@+id/usersListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/list_view_item"/>
+
+    </LinearLayout>
+
+</layout>
