@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <import type="android.widget.Toast"/>
+
+        <variable
+            name="ItemViewModel"
+            type="com.example.viewbindingapp4_001.viewmodel.ItemViewModel" />
+
+        <variable
+            name="ItemColorViewModel"
+            type="com.example.viewbindingapp4_001.viewmodel.ItemColorViewModel" />
+
+        <variable
+            name="ItemName"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="1. Spinner array from xml" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:entries="@array/test_array"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item"
+            android:selectedItemPosition="@{0}"
+            android:onItemSelected="@{()->Toast.makeText(context,`zmiana`,Toast.LENGTH_SHORT).show()}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="2. Spinner array from viewmodel" />
+
+        <EditText
+            android:text="@={ItemName}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:entries="@{ItemViewModel.getObservedItemList()}"
+            android:onItemSelected="@{()->ItemViewModel.changeIndex(spinner2.selectedItemPosition)}"
+            android:selectedItemPosition="@={ItemViewModel.getObservedIndex()}"/>
+
+        <TextView
+            android:text="@{String.valueOf(ItemViewModel.getObservedIndex())}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:text="ADD CATEGORY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="@{()->ItemViewModel.addItem(ItemName)}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="3. Spinner array with adapter" />
+
+        <Spinner
+            android:id="@+id/spinner3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:selectedItemPosition="@{0}"
+            tools:listitem="@layout/spinner_item" />
+
+<!--            android:onItemSelected="@{()->ItemImageViewModel.your_function()}"-->
+
+        <TextView
+            android:background="@{ItemColorViewModel.getObservedColor()}"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <Button
+            android:text="ADD CATEGORY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="@{()->ItemColorViewModel.addItem(ItemName)}" />
+
+    </LinearLayout>
+
+</layout>
