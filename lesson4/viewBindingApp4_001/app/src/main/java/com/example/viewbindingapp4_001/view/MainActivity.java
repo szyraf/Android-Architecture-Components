@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.viewbindingapp4_001.adapters.ItemsColorAdapter;
 import com.example.viewbindingapp4_001.databinding.ActivityMainBinding;
@@ -54,5 +55,26 @@ public class MainActivity extends AppCompatActivity {
             itemsImageAdapter.notifyDataSetChanged();
         });
 
+        itemImageViewModel.getObservedColor().observe(MainActivity.this, s -> {
+            activityMainBinding.setItemColorViewModel(itemImageViewModel);
+            itemsImageAdapter.notifyDataSetChanged();
+        });
+
+        itemImageViewModel.getObservedIndex().observe(MainActivity.this, s -> {
+            activityMainBinding.setItemColorViewModel(itemImageViewModel);
+            itemsImageAdapter.notifyDataSetChanged();
+        });
+
+        activityMainBinding.spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                itemImageViewModel.changeIndexAndColor(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 }

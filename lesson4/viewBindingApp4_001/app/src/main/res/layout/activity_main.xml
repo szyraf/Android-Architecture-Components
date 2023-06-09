@@ -4,6 +4,7 @@
 
     <data>
         <import type="android.widget.Toast"/>
+        <import type="android.graphics.Color"/>
 
         <variable
             name="ItemViewModel"
@@ -88,13 +89,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:selectedItemPosition="@{0}"
+            android:selectedItemPosition="@{ItemColorViewModel.getObservedIndex()}"       
             tools:listitem="@layout/spinner_item" />
 
-<!--            android:onItemSelected="@{()->ItemImageViewModel.your_function()}"-->
+<!-- android:onItemSelected="@{()->ItemColorViewModel.changeIndexAndColor(spinner3.selectedItemPosition)}" -->
+<!--        android:selectedItemPosition="@{ItemColorViewModel.getObservedIndex()}"-->
 
-        <TextView
-            android:background="@{ItemColorViewModel.getObservedColor()}"
+        <View
+            android:background="@{Color.parseColor(ItemColorViewModel.getObservedColor())}"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
 
