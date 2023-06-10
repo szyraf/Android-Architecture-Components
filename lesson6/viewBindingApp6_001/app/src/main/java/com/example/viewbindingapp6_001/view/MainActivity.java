@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         List<User> users = userDatabase.userDAO().getAll();
 
         Log.d("xxx", String.valueOf(users.size()));
-        
+
         for (User u : users) {
             Log.d("xxx", u.getFirstName() + " " + u.getLastName());
         }
