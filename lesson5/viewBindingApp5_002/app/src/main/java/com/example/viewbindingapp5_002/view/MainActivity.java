@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //observe
 
         movieViewModel.getObservedMovies().observe(this, l -> {
-
             activityMainBinding.gridView.setAdapter(adapter);
-
         });
     }
 
