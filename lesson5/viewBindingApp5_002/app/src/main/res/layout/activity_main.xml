@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="MovieViewModel"
+            type="com.example.viewbindingapp5_002.viewmodel.MovieViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity">
+
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            tools:listitem="@layout/list_item">
+
+        </GridView>
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:posterUrl="@{`https://image.tmdb.org/t/p/w500`+Movie.poster_path}" />-->
+
+    </LinearLayout>
+
+</layout>
