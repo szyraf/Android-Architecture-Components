@@ -56,6 +56,13 @@
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_upload_last_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadius="20dp"
+            android:text="UPLOAD LAST PHOTO" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bt5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

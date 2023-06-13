@@ -13,7 +13,7 @@ import retrofit2.http.Part;
 public interface API {
     @Multipart
     @POST("/api/photos")
-    Call<UploadFile> sendImage(
+    Call<PhotoJSON> uploadPhoto(
             @Part("album") RequestBody album,
             @Part MultipartBody.Part file
     );

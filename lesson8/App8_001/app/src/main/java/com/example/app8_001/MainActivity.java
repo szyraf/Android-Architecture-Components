@@ -18,11 +18,15 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +41,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
+import java.io.Console;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -69,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean recording = false;
 
+    private String lastPhotoPath = "1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,40 +85,27 @@ public class MainActivity extends AppCompatActivity {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        /*
-         * Retrofit retrofit = new Retrofit.Builder()
-         * .baseUrl("http://192.168.56.1:3000")
-         * .addConverterFactory(GsonConverterFactory.create())
-         * .build();
-         * 
-         * String fileUri =
-         * Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-         * + "/" + timestamp + ".jpg";
-         * 
-         * File file = new File(fileUri);
-         * 
-         * RequestBody fileRequest =
-         * RequestBody.create(MediaType.parse("multipart/form-data"), file);
-         * MultipartBody.Part body = MultipartBody.Part.createFormData("file",
-         * file.getName(), fileRequest);
-         * 
-         * RequestBody album = RequestBody.create(MultipartBody.FORM, "album123");
-         */
+        ActivityCompat.requestPermissions( this,
+                new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                }, 1
+        );
 
         /*
-        Toast t = new Toast(MainActivity.this);
-        LayoutInflater inflater = getLayoutInflater();
-        LinearLayout textView = (LinearLayout) inflater.inflate(R.layout.toast_item, null, false);
-        // textView.setText(gson.toJson(response.body()));
-        Gson gson = new Gson();
-        //textView.setText(gson.toJson("test"));
-        // t.setView(cardView);
-        // t.show();
-        t.setView(textView);
-        t.show();
-         */
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+        */
 
+        Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.168.0.93:3000")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
+        API api = retrofit.create(API.class);
 
         activityMainBinding.bt1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,13 +117,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.0.93:3000")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                API api = retrofit.create(API.class);
-
                 Call<List<PhotoJSON>> call = api.getAll();
 
                 call.enqueue(new Callback<List<PhotoJSON>>() {
@@ -185,6 +172,54 @@ public class MainActivity extends AppCompatActivity {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     contentValues).build();
 
+            activityMainBinding.btUploadLastPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (lastPhotoPath != "") {
+                        Log.d("xxx", "upload");
+
+                        //String fileUri = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + timestamp + ".jpg";
+                        String fileUri = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/photos/x.jpg";
+
+                        File file = new File(fileUri);
+
+                        RequestBody fileRequest = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        //MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), fileRequest);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("myFile", "upload.jpg", fileRequest);
+
+                        RequestBody album = RequestBody.create(MultipartBody.FORM, "album123");
+
+                        Call<PhotoJSON> call = api.uploadPhoto(album, body);
+
+                        call.enqueue(new Callback<PhotoJSON>() {
+                            @Override
+                            public void onResponse(Call<PhotoJSON> call, Response<PhotoJSON> response) {
+                                Log.d("xxx", "response");
+                                if (!response.isSuccessful()) {
+                                    Log.d("xxx", String.valueOf(response.code()));
+                                    return;
+                                } else {
+                                    //PhotoJSON json = response.body();
+
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(response.body());
+
+                                    showDialogString(json);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<PhotoJSON> call, Throwable t) {
+                                Log.d("xxx", "failure: " + t.getMessage());
+                                showDialogString("error");
+                                t.getMessage();
+                            }
+                        });
+
+                    }
+                }
+            });
+
             // wykonanie zdjęcia
             activityMainBinding.bt5.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -206,12 +241,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            File dir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photos");
+            //string picturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+            Log.d("xxx", "path");
+            Log.d("xxx", getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath());
+            Log.d("xxx", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
+
+
+            String externalFilesDir = getExternalFilesDir(null).getAbsolutePath();
+            String picturesPath = new File(externalFilesDir, Environment.DIRECTORY_PICTURES).getAbsolutePath();
+            Log.d("xxx", picturesPath);
+
+            //File dir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photos");
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "photos");
+
             dir.mkdir();
             boolean isDirectoryCreated = dir.exists() || dir.mkdirs();
 
             Log.d("xxx", String.valueOf(isDirectoryCreated));
-            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/photos/", "x.jpg");
+            //File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/photos/", "x.jpg");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/photos/", "x.jpg");
+
 
             ImageCapture.OutputFileOptions outputFileOptions2 = new ImageCapture.OutputFileOptions.Builder(file)
                     .build();
